@@ -26,12 +26,12 @@ def train_episode(env, model, optimizer, gamma=0.99, lam=0.97, n_epochs=4, clip_
         next_state, reward, terminated, truncated, _ = env.step(action)
         done = terminated or truncated
 
-        states.append(state)
+        states.append(np.array(state, dtype=np.float32).flatten())
         actions.append(action)
-        rewards.append(reward)
+        rewards.append(float(reward))
         # neg_log_prob is negative, so it has to be negated
-        log_probs.append(-tf.squeeze(neg_log_probs).numpy())
-        values_list.append(value)
+        log_probs.append(float(-tf.squeeze(neg_log_probs).numpy()))
+        values_list.append(float(tf.squeeze(value).numpy()))
         dones.append(float(done))
 
 
